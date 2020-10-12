@@ -65,6 +65,22 @@ class SmartSaveUI(QtWidgets.QDialog):
         self._set_scenefile_properties_from_ui()
         self.scenefile.save()
 
+    def _set_scenefile_properties_from_ui(self):
+        self.scenefile.folder_path = self.folder_le.text()
+        self.scenefile.descriptor = self.descriptor_le.text()
+        self.scenefile.task = self.task_le.text()
+        self.scenefile.ver = self.ver_sbx.value()
+        self.scenefile.ext = self.ext_lbl.text()
+
+    @QtCore.Slot()
+    def _browse_folder(self):
+        """opens a dialog box to browse a folder"""
+        folder = QtWidgets.QFileDialog.getExistingDirectory(
+            Parent=self, caption="Select folder", dir=self.folder_le.text(),
+            options=QtWidgets.QFileDialog.ShowDirsOnly |
+                    QtWidgets.QFileDialog.DontResolveSymlinks)
+        self.folder_le.setText(folder)
+
    
 class SceneFile(object):
     def __init__(self, path=None):
